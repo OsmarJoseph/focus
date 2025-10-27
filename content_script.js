@@ -5,16 +5,15 @@ const blockSites = () => {
 
   for (const blocked_url of blocked_urls) {
     if (window.location.href.includes(blocked_url)) {
-      window.location.href = browser.runtime.getURL("focus.html");
+      window.history.replaceState({}, "", browser.runtime.getURL("focus.html"));
     }
   }
-}
+};
 
 browser.runtime.onMessage.addListener((message) => {
-  console.log(message.response)
   const isFlowActive = message.response === "Flow";
 
-  if(isFlowActive) {
+  if (isFlowActive) {
     blockSites();
   }
-})
+});
